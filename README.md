@@ -46,7 +46,7 @@ Add to `claude_desktop_config.json`:
   "mcpServers": {
     "protocol_mcp": {
       "command": "python",
-      "args": ["C:\\Dev\\protocol-mcp\\protocol_mcp.py"],
+      "args": ["path/to/protocol-mcp/protocol_mcp.py"],
       "env": {}
     }
   }
@@ -75,20 +75,36 @@ summary: One-line description.
 Phase content...
 ```
 
-The server discovers new protocols automatically. No restart needed. Both `### Phase N:` headings and `**Check N:**` bold formats are supported.
+The server discovers new protocols automatically. No restart needed. Both `### Phase N:` headings and `**Check N:**` bold formats are supported by the parser.
 
 ## Shipped Protocols
 
-| ID | Name | Trigger | Items |
-|----|------|---------|-------|
-| `lbp` | Lateral Bore Protocol | `-lbp` | 7 phases |
-| `ora` | Objective Recursive Analysis | `-ora` | 9 phases |
-| `pi` | Probability Index | `-pi` | 4 phases |
-| `ocap` | Outbound Content Alignment Protocol | implicit | 18 checks |
-| `dap` | Devil's Advocate Protocol | `-dap` | 6 phases |
-| `sidebar` | Sidebar Protocol | `-sidebar` | 4 phases |
-| `commit` | Commit Protocol | implicit | 4 phases |
-| `strength` | Strength Protocol | global | 3 phases |
+| ID | Name | Trigger | Items | Description |
+|----|------|---------|-------|-------------|
+| `lbp` | Lateral Bore Protocol | `-lbp` | 7 phases | Systematic lateral thinking. Trace causal chains backward, repurpose tools cross-domain, stack signals for conviction, generate zero-competition channels. |
+| `ora` | Objective Recursive Analysis | `-ora` | 9 phases | Recursive depth-drilling. Each level examines previous level's assumptions. Terminates at decision fork or foundational truth. |
+| `pi` | Probability Index | `-pi` | 4 phases | Rapid Bayesian scoring for competing interpretations. Score against evidence fit, prior frequency, structural plausibility. |
+| `ocap` | Outbound Content Alignment Protocol | implicit | 18 checks | Two-tier: Tier 1 removes AI authorship signatures (vocabulary, structure, composition). Tier 2 evaluates content quality (anti-reductive capacitance, glaze test, escape route audit). |
+| `dap` | Devil's Advocate Protocol | `-dap` | 6 phases | Adversarial audit. Score factors +5 to -5, produce scorecard, deliver honest interpretation with no motivational close. |
+| `sidebar` | Sidebar Protocol | `-sidebar` | 4 phases | Context-isolated tangent. Multi-turn supported. Clean exit back to main thread. |
+| `commit` | Commit Protocol | implicit | 4 phases | Storage write guard. Decomposes into OBSERVED/INFERRED/PACKAGED layers. Commits only after human confirms. |
+| `strength` | Strength Protocol | global | 3 phases | Output filter. No age math, no weakness projection, CISO+AI+research intersection positioning. |
+
+## Architecture
+
+```
+protocol_mcp.py        # FastMCP server v1.1.0 (stdio transport, ~580 lines)
+protocols/             # Drop-in protocol library (8 protocols)
+sessions/              # Cross-session state persistence (JSON files)
+```
+
+### How It Works
+
+The server scans `protocols/` for `.md` files with YAML frontmatter on every tool call (no caching, so new protocols appear instantly). It parses phases/checks using a dual-pattern regex that handles both `### Phase N:` headings and `**Check N:**` bold inline formats, merging and deduplicating by number. Session state is stored as JSON files in `sessions/`, with automatic history tracking and shallow data merge on save.
+
+### Design Decisions
+
+This server was built after an Objective Recursive Analysis (ORA) determined that the original plan (wrapping reasoning frameworks as MCP tools) scored 0/4 on the MCP value criteria (external data, computation, persistence, action). The architecture was reframed: protocols belong in context (the document IS the tool), but making them *persistently available across all conversation spaces* requires MCP infrastructure. The server provides persistence and universal access. The protocols provide the reasoning frameworks. They compose naturally.
 
 ## Author
 
