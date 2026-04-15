@@ -8,6 +8,14 @@ Protocols are cognitive frameworks (LBP, DAP, OCAP, ORA, PI, Sidebar, Commit, St
 
 This MCP server makes all protocols **always available, everywhere**. Claude can discover, describe, load, and execute any protocol on demand. Protocol execution persists across sessions. New protocols are added by dropping a `.md` file in the `protocols/` directory.
 
+## Prerequisites
+
+- **Python 3.10+** (tested on 3.14, should work on 3.10+)
+- **Claude Desktop** (any platform: Windows, macOS, Linux)
+- **pip** for dependency installation
+
+The server uses stdio transport and runs as a subprocess of Claude Desktop. It is platform-independent. Protocol files are UTF-8 markdown. Session files are UTF-8 JSON. No platform-specific code.
+
 ## Tools
 
 ### Protocol Retrieval (Phase 1)
@@ -39,14 +47,28 @@ pip install -r requirements.txt
 
 ## Claude Desktop Configuration
 
-Add to `claude_desktop_config.json`:
+Add to your `claude_desktop_config.json`:
 
+**Windows:**
 ```json
 {
   "mcpServers": {
     "protocol_mcp": {
       "command": "python",
-      "args": ["path/to/protocol-mcp/protocol_mcp.py"],
+      "args": ["C:\\path\\to\\protocol-mcp\\protocol_mcp.py"],
+      "env": {}
+    }
+  }
+}
+```
+
+**macOS / Linux:**
+```json
+{
+  "mcpServers": {
+    "protocol_mcp": {
+      "command": "python3",
+      "args": ["/path/to/protocol-mcp/protocol_mcp.py"],
       "env": {}
     }
   }
