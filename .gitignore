@@ -1,0 +1,7 @@
+sessions/*.json
+protocol_mcp_v*.py
+__pycache__/
+*.pyc
+*.pyo
+.env
+PHASE2_BUILD.md
