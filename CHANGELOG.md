@@ -2,6 +2,22 @@
 
 All notable changes to the Protocol MCP Server.
 
+## [2.0.0-cloud] - 2026-04-15
+
+### Added
+- **Cloud deployment via Render** at `https://protocol-mcp.onrender.com/mcp/`
+- `server.py` — Streamable HTTP version using standalone `fastmcp` package
+- `Dockerfile` — Python 3.13-slim with uv package manager
+- `render.yaml` — Render.com auto-deploy configuration (free tier)
+- Auto-deploys from GitHub on push to main
+
+### Architecture
+- Cloud version uses standalone `fastmcp` package (import `from fastmcp import FastMCP`)
+- Local version uses `mcp[cli]` SDK package (import `from mcp.server.fastmcp import FastMCP`)
+- Both share the same `protocols/` directory and parsing logic
+- Cloud serves 5 tools (Phase 1 retrieval). Local serves 9 tools (Phase 1 + Phase 2 sessions)
+- Session persistence requires filesystem access, deferred to cloud v2.1 with database backend
+
 ## [1.1.0] - 2026-04-15
 
 ### Added
@@ -21,7 +37,7 @@ All notable changes to the Protocol MCP Server.
   - `_BOLD_CHECK_RE` matches `**Check N:**` bold inline format
   - Results merged by number (heading wins on conflict), sorted numerically
   - OCAP now correctly parses all 18 checks (Tier 1 bold + Tier 2 headings)
-- **Improved error message** when protocol has no parsed phases — now suggests using `protocol_load` instead of showing empty phase list
+- **Improved error message** when protocol has no parsed phases — now suggests using `protocol_load`
 
 ## [1.0.1] - 2026-04-15
 
@@ -39,16 +55,14 @@ All notable changes to the Protocol MCP Server.
   - `protocol_describe` — summary + phase list without full content
   - `protocol_get_phase` — load single phase for step-by-step execution
   - `protocol_search` — weighted keyword search across all protocols
-- YAML frontmatter parser for protocol metadata (name, id, version, trigger, summary)
-- `### Phase N:` heading parser for phase extraction
+- YAML frontmatter parser for protocol metadata
 - Dual response format support (markdown and JSON)
 - Pydantic input validation for all tools
-- Tool annotations (readOnlyHint, destructiveHint, idempotentHint, openWorldHint)
 - 8 shipped protocols: LBP, ORA, PI, OCAP (18 checks), DAP, Sidebar, Commit, Strength
 - Drop-in protocol architecture — add .md files to `protocols/`, no restart needed
 - MIT license
 
 ### Design
-- Architecture determined by ORA (Objective Recursive Analysis) — original plan to wrap reasoning in MCP tools scored 0/4 on MCP value criteria; reframed as protocol library server providing persistence + universal access
+- Architecture determined by ORA — original plan scored 0/4 on MCP value criteria; reframed as protocol library server
 - Two new protocols (ORA, PI) emerged from the architectural analysis process itself
 - OCAP validated against real LinkedIn post output before shipping
