@@ -1,14 +1,14 @@
 ---
 name: Outbound Content Alignment Protocol
 id: ocap
-version: 1.0
+version: 1.1
 trigger: implicit (all externally-visible content)
-summary: Two-tier content evaluation protocol for anything seen by third parties. Tier 1 removes AI authorship signatures across vocabulary, structure, and composition. Tier 2 evaluates content quality through Anti-Reductive Capacitance, Signal-to-Noise (Glaze Test), and Escape Route Audit. Apply recursively until a full pass produces zero changes. Built iteratively across months of LinkedIn posts, emails, proposals, and client communication.
+summary: Three-section content evaluation protocol for anything seen by third parties. Tier 1 removes AI authorship signatures across vocabulary, structure, composition, and rhythm/cadence patterns. Tier 2 evaluates content quality through Anti-Reductive Capacitance, Signal-to-Noise (Glaze Test), and Escape Route Audit. Apply recursively until a full pass produces zero changes. Built iteratively across months of LinkedIn posts, emails, proposals, and client communication. v1.1 added Rhythm & Cadence checks (16-21) after discovering that pattern-level AI signatures survive individual vocabulary and structure checks.
 ---
 
 # OUTBOUND CONTENT ALIGNMENT PROTOCOL (OCAP)
-## Two-Tier Content Evaluation Framework
-### Origin: Barry Kramer + Claude | Formalized April 13, 2026
+## Three-Section Content Evaluation Framework
+### Origin: Barry Kramer + Claude | Formalized April 13, 2026 | v1.1 April 16, 2026
 ### Built iteratively from March 2026 through ongoing outbound communication
 
 ---
@@ -61,13 +61,29 @@ Tier 1 detects and eliminates patterns that signal AI-generated authorship. Thes
 
 **Check 15: No AI editorial architecture.** The catch-all. If the structure itself signals machine authorship even when the vocabulary is clean, the composition has failed. This covers patterns not yet individually identified. When you read the piece and it "feels" AI-generated despite passing checks 1-14, this check has failed. Find the structural pattern causing it and either fix it or add it as a new named check.
 
+### Rhythm and Cadence Checks
+
+These checks catch pattern-level AI signatures that survive all individual vocabulary, structure, and composition checks. They were formalized April 16, 2026 after a piece passed 18/18 on version 1.0 and still read as AI-generated on an adversarial re-read. The piece had been rubber-stamped on Check 15 instead of genuinely evaluated. These six checks decompose what Check 15 was supposed to catch.
+
+**Check 16: Sentence-length variance.** Outbound content must show deliberate variation in sentence length within each paragraph. AI generation defaults to a narrow band of 8 to 15 words per sentence with very low variance. Human writing varies dramatically between short bursts (3 to 5 words) and long winding sentences (20 to 40+ words). Test: measure sentence lengths across three consecutive paragraphs. If 80 percent or more fall in the 8 to 15 word range, the piece has failed. Break some sentences shorter, extend others longer. Deliberate variance signals human composition.
+
+**Check 17: Comma-separated triplet rhythm.** The three-parallel-items pattern banned in Check 7 still fails when the items are joined with commas inside a single sentence. "Prompt in, output out, shipped to the client" is the same rhetorical move as "Prompt in. Output out. Shipped to the client." Check 7 catches period-separated triplets. Check 17 catches the comma-separated version. Break the rhythm with asymmetric structures: two items, four items, or one item followed by a compound sentence.
+
+**Check 18: Pointer construction overuse.** "That's how X." "That's the gap." "That's not Y." "That's what matters." AI uses "That's..." and similar pointer constructions as sentence-connectors and paragraph-pivots compulsively. Limit: one per piece, maximum two. Replace with concrete reference ("The model converges on the target"), direct subject shift ("Most adoption strategies focus on..."), or simply continue the prior thought into the next clause.
+
+**Check 19: Fragment punchline cadence.** AI ends paragraphs with short declarative fragments or ultra-short sentences as rhythmic punchlines. "No iteration." "Every mistake becomes a sensor." "Single-pass generation plateaus. Recursive evaluation converges." One fragment closer in a piece may be acceptable for emphasis. More than one across a piece is a pattern, and the pattern is a tell. Vary paragraph endings. Let some trail into complex sentences. Let some end mid-argument and continue in the next paragraph.
+
+**Check 20: Abstract noun subject dominance.** AI defaults to abstract nouns as sentence subjects. "The methodology works across domains." "The framework catches failure modes." "Machine learning was built for iteration." Practitioner speech puts people, teams, clients, projects, and events as subjects more often. "I see this pattern constantly." "A team I was watching ran..." "When engineers use the tool in single-pass mode..." Test: count sentences across the piece. If more than 60 percent have abstract nouns as grammatical subjects, rewrite the sentences with concrete actors where the content allows.
+
+**Check 21: Parallel sentence-start pairs.** Within a paragraph, AI produces two sentences back-to-back with matching grammatical openings. "That's how models are trained. It's also how they should be used." "Single-pass generation plateaus. Recursive evaluation converges." The parallelism is the tell. If two matched openers appear in sequence, rewrite one to break the rhythm. Different subject, different verb structure, or different sentence length will do it. Any single axis of variation breaks the pattern.
+
 ---
 
 ## TIER 2: CONTENT QUALITY
 
 Tier 2 evaluates whether the content works as communication, not just whether it passes as human-written. These are qualitative assessments, not binary checks.
 
-### Check 16: Anti-Reductive Capacitance
+### Check 22: Anti-Reductive Capacitance
 
 Content must resist being reduced to a simpler claim than intended. If a reader can skim the piece and walk away with a simplified version that misrepresents the argument, the content has low anti-reductive capacitance.
 
@@ -75,7 +91,7 @@ Content must resist being reduced to a simpler claim than intended. If a reader 
 
 **Example from Specification Economy post:** "That sounds like a small distinction. It isn't." followed by the operational WHAT-vs-WHY difference. This sentence exists specifically to prevent the reductive reading "just learn your AI tools better."
 
-### Check 17: Signal-to-Noise Ratio (Glaze Test)
+### Check 23: Signal-to-Noise Ratio (Glaze Test)
 
 Every sentence must carry signal. "Glaze" is filler that sounds professional but communicates nothing.
 
@@ -90,7 +106,7 @@ Every sentence must carry signal. "Glaze" is filler that sounds professional but
 
 **Example from Specification Economy post:** Revision notes documented: "Technical concepts completely removed. No attention mechanisms, no token distributions, no transformer architecture." That was glaze removal.
 
-### Check 18: Escape Route Audit
+### Check 24: Escape Route Audit
 
 Readers who disagree will look for reasons to dismiss the content without engaging the argument. Identify the most likely escape routes and foreclose them.
 
@@ -131,4 +147,8 @@ Workspace files, personal notes, conversation with Claude, internal documentatio
 
 ### Evolving Checklist
 
-OCAP is not static. When a new AI authorship signature or content quality failure is identified during real-world drafting, it gets added as a new named check. Check 15 (No AI editorial architecture) serves as the catch-all until new patterns are formalized into their own checks.
+OCAP is not static. When a new AI authorship signature or content quality failure is identified during real-world drafting, it gets added as a new named check. Check 15 (No AI editorial architecture) serves as the catch-all until new patterns are formalized into their own checks. When patterns get pulled out of the catch-all into named checks, the named checks take precedence.
+
+### Rubber-Stamp Prohibition
+
+Check 15 is not a formality. Running the protocol means adversarially reading the output as if trying to detect AI authorship. If Check 15 is passed without finding anything when the piece still reads as AI-generated to a skeptical eye, the check has failed silently. Barry calibrated this rule after a v1.0 run passed 18/18 on a piece that still had six detectable AI patterns visible on honest re-read. Those six patterns became Checks 16 through 21.
