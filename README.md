@@ -1,6 +1,6 @@
 # Protocol MCP Server
 
-A FastMCP server that makes cognitive protocols persistently available across all Claude conversation spaces.
+A FastMCP server that makes cognitive protocols persistently available across all Claude conversation spaces. Available as both a local server (stdio) and a cloud-hosted service (streamable HTTP).
 
 ## What It Does
 
@@ -8,17 +8,26 @@ Protocols are cognitive frameworks (LBP, DAP, OCAP, ORA, PI, Sidebar, Commit, St
 
 This MCP server makes all protocols **always available, everywhere**. Claude can discover, describe, load, and execute any protocol on demand. Protocol execution persists across sessions. New protocols are added by dropping a `.md` file in the `protocols/` directory.
 
+## Two Deployment Modes
+
+| Mode | File | Transport | Tools | Use Case |
+|------|------|-----------|-------|----------|
+| **Local** | `protocol_mcp.py` | stdio | 9 (retrieval + sessions) | Claude Desktop, full features |
+| **Cloud** | `server.py` | streamable HTTP | 5 (retrieval) | Any device, any Claude conversation |
+
+The cloud server is live at **`https://protocol-mcp.onrender.com/mcp/`** (Render free tier, auto-deploys from this repo).
+
 ## Prerequisites
 
 - **Python 3.10+** (tested on 3.14, should work on 3.10+)
 - **Claude Desktop** (any platform: Windows, macOS, Linux)
 - **pip** for dependency installation
 
-The server uses stdio transport and runs as a subprocess of Claude Desktop. It is platform-independent. Protocol files are UTF-8 markdown. Session files are UTF-8 JSON. No platform-specific code.
+The local server uses stdio transport and runs as a subprocess of Claude Desktop. The cloud server uses streamable HTTP via the standalone `fastmcp` package. Both are platform-independent.
 
 ## Tools
 
-### Protocol Retrieval (Phase 1)
+### Protocol Retrieval (Phase 1) — both local and cloud
 
 | Tool | Purpose |
 |------|---------|
@@ -28,7 +37,7 @@ The server uses stdio transport and runs as a subprocess of Claude Desktop. It i
 | `protocol_get_phase` | Load a single phase for focused execution |
 | `protocol_search` | Search across all protocols by keyword |
 
-### Session Persistence (Phase 2)
+### Session Persistence (Phase 2) — local only
 
 | Tool | Purpose |
 |------|---------|
@@ -37,7 +46,7 @@ The server uses stdio transport and runs as a subprocess of Claude Desktop. It i
 | `protocol_resume` | Load prior session state into new conversation |
 | `protocol_list_sessions` | Find previous sessions, filterable by protocol |
 
-## Installation
+## Installation (Local)
 
 ```bash
 git clone https://github.com/barrykramer-cbds/protocol-mcp.git
@@ -47,7 +56,7 @@ pip install -r requirements.txt
 
 ## Claude Desktop Configuration
 
-Add to your `claude_desktop_config.json`:
+### Local Server (stdio)
 
 **Windows:**
 ```json
@@ -75,6 +84,24 @@ Add to your `claude_desktop_config.json`:
 }
 ```
 
+### Cloud Server (remote via mcp-remote)
+
+```json
+{
+  "mcpServers": {
+    "protocol_mcp_cloud": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://protocol-mcp.onrender.com/mcp/"],
+      "env": {}
+    }
+  }
+}
+```
+
+Requires Node.js installed. The `mcp-remote` package bridges Claude Desktop's stdio transport to the remote streamable HTTP server.
+
+Both entries can coexist in the same config. Local for zero-latency access at your desk, cloud for access from any device.
+
 Fully quit Claude Desktop before editing the config, then restart.
 
 ## Adding Protocols
@@ -97,7 +124,9 @@ summary: One-line description.
 Phase content...
 ```
 
-The server discovers new protocols automatically. No restart needed. Both `### Phase N:` headings and `**Check N:**` bold formats are supported by the parser.
+The local server discovers new protocols automatically (no restart needed). The cloud server picks up changes on the next deploy from GitHub.
+
+Both `### Phase N:` headings and `**Check N:**` bold formats are supported by the parser.
 
 ## Shipped Protocols
 
@@ -115,14 +144,17 @@ The server discovers new protocols automatically. No restart needed. Both `### P
 ## Architecture
 
 ```
-protocol_mcp.py        # FastMCP server v1.1.0 (stdio transport, ~580 lines)
-protocols/             # Drop-in protocol library (8 protocols)
-sessions/              # Cross-session state persistence (JSON files)
+protocol_mcp.py        # Local server v1.1.0 (stdio, mcp[cli] SDK, ~580 lines)
+server.py              # Cloud server v2.0.0 (streamable HTTP, standalone fastmcp)
+Dockerfile             # Container image for cloud deployment
+render.yaml            # Render.com auto-deploy configuration
+protocols/             # Drop-in protocol library (8 protocols, shared by both servers)
+sessions/              # Cross-session state persistence (local server only)
 ```
 
 ### How It Works
 
-The server scans `protocols/` for `.md` files with YAML frontmatter on every tool call (no caching, so new protocols appear instantly). It parses phases/checks using a dual-pattern regex that handles both `### Phase N:` headings and `**Check N:**` bold inline formats, merging and deduplicating by number. Session state is stored as JSON files in `sessions/`, with automatic history tracking and shallow data merge on save.
+Both servers scan `protocols/` for `.md` files with YAML frontmatter. The parser uses a dual-pattern regex that handles both `### Phase N:` headings and `**Check N:**` bold inline formats, merging and deduplicating by number. The local server stores session state as JSON files in `sessions/` with automatic history tracking and shallow data merge on save.
 
 ### Design Decisions
 
