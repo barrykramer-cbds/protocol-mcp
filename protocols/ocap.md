@@ -1,14 +1,14 @@
 ---
 name: Outbound Content Alignment Protocol
 id: ocap
-version: 1.5
+version: 1.6
 trigger: implicit (all externally-visible content)
-summary: Three-axis recursive content evaluation protocol for anything seen by third parties. Replaces the iterative three-pass model with orthogonal evaluation across a Factual axis (F), Signature axis (S), and Architectural axis (A), each addressable at recursive depth 1, 2, or 3 (3, 9, or 27 evaluation nodes). Depth is auto-classified based on content stakes. Output includes a Recursive Audit Trace showing findings per node, which replaces the Pass Execution Audit. Named checks 1 through 30 map to specific axes. v1.5 restructures enforcement from claimed sequential passes to a single structurally-differentiated recursive evaluation, solving the confirmation-bias-loop failure that persisted through v1.2 and v1.3.
+summary: Three-axis recursive content evaluation protocol for anything seen by third parties. Replaces the iterative three-pass model with orthogonal evaluation across a Factual axis (F), Signature axis (S), and Architectural axis (A), each addressable at recursive depth 1, 2, or 3 (3, 9, or 27 evaluation nodes). Depth is auto-classified based on content stakes. Output includes a Recursive Audit Trace showing findings per node, which replaces the Pass Execution Audit. Named checks 1 through 30 map to specific axes. v1.5 restructured enforcement from claimed sequential passes to structurally-differentiated recursive evaluation. v1.6 adds ocap_lint as the mandated mechanical enforcement layer for the deterministic subset of S-axis, F-axis, and A-axis checks, converting ~60% of checks from integrity-based to tool-based verification.
 ---
 
 # OUTBOUND CONTENT ALIGNMENT PROTOCOL (OCAP)
 ## Three-Axis Recursive Content Evaluation Framework with Auto-Depth Classification
-### Origin: Barry Kramer + Claude | v1.0 April 13, 2026 | v1.1 April 16, 2026 | v1.2 April 16, 2026 | v1.3 April 16, 2026 | v1.5 April 16, 2026
+### Origin: Barry Kramer + Claude | v1.0 April 13, 2026 | v1.1 April 16, 2026 | v1.2 April 16, 2026 | v1.3 April 16, 2026 | v1.5 April 16, 2026 | v1.6 April 17, 2026
 ### Built iteratively from March 2026 through ongoing outbound communication
 
 ---
@@ -240,6 +240,57 @@ Minimum Signal Floor: if fewer than three concrete signals surface across all pe
 
 ---
 
+---
+
+## MECHANICAL ENFORCEMENT via `ocap_lint`
+
+v1.6 adds the `ocap_lint` MCP tool as the mandated mechanical enforcement layer for the deterministic subset of OCAP checks. The tool is exposed by the Protocol MCP server alongside `protocol_load`, `protocol_describe`, etc.
+
+### Coverage
+
+`ocap_lint` runs deterministic pattern checks against submitted content and returns findings as structured output. It covers approximately 60% of OCAP's 30 checks:
+
+**S-axis mechanical checks (tool-enforced):**
+Checks 1, 2, 3, 4, 5, 7, 10, 11, 13, 14, 16, 17, 18, 19, 20, 21, 25, 26
+
+**F-axis mechanical checks (tool-enforced):**
+Check 27 (heuristic — flags pattern, resolution requires external input)
+
+**A-axis mechanical checks (tool-enforced):**
+Check 29 (promotional density)
+
+**Judgment-based checks NOT covered by `ocap_lint`:**
+Checks 6, 8, 9, 12, 15, 22, 23, 24, 28, 30 — these require semantic understanding, world knowledge, or structural reasoning that the tool does not perform. Claude still evaluates these at the appropriate axis nodes.
+
+### Invocation Requirement
+
+For every outbound content evaluation, Claude must call `ocap_lint` on the current draft and incorporate the returned findings into the Recursive Audit Trace. Calling the tool is not optional. The audit must include a `[LINT]` section listing tool-generated findings and a `[JUDGMENT]` section listing Claude-evaluated findings. This separation allows the human reviewer to verify which findings are mechanically generated (and therefore non-fabricable) versus which rely on Claude's judgment.
+
+### Audit Format Update
+
+```
+OCAP v1.6 RECURSIVE AUDIT TRACE
+================================
+
+[LINT] Mechanical findings from ocap_lint:
+  [paste structured output from tool, verbatim]
+
+[JUDGMENT] Claude-evaluated findings:
+  [F-axis factual verification]
+  [F.F, F.A, etc. nodes not covered by lint]
+  [A.A intent integrity]
+  [A.S composition-level structural patterns]
+  [Check 30 multi-surface consistency]
+
+CONVERGENCE: [yes / no]
+```
+
+### Why This Matters
+
+`ocap_lint` findings are non-fabricable by Claude. The tool runs in its own process, returns structured output that Claude includes verbatim, and Barry can spot-check by re-running the tool on the same input. This satisfies the Verification Principle for the mechanical check subset.
+
+For the judgment-based checks, Claude's output remains integrity-based and is the remaining candidate for future structural conversion (e.g., external classifier, human checkpoint).
+
 ## RECURSIVE AUDIT TRACE
 
 Every outbound piece ships with a Recursive Audit Trace showing findings per evaluation node at the classified depth. The audit replaces v1.3's Pass Execution Audit.
@@ -339,12 +390,13 @@ OCAP has now evolved through three integrity-to-structure conversions:
 - **v1.1 → v1.2:** Adversarial reading moved from optional meta-check to structurally mandatory precondition. Cause: integrity-based enforcement of "do a hostile read" failed in practice.
 - **v1.2 → v1.3:** Pass execution moved from self-reported claim to mandatory audit artifact. Cause: integrity-based enforcement of "run three passes" failed in practice.
 - **v1.3 → v1.5:** Evaluation structure moved from sequential iterative passes to orthogonal recursive axes. Cause: integrity-based enforcement of "three independent passes" failed in practice because Claude has one generative pass per turn and cannot run three truly independent evaluations sequentially within it.
+- **v1.5 → v1.6:** Approximately 60% of checks moved from Claude's self-reported evaluation to external tool enforcement via `ocap_lint`. Cause: even with recursive axis structure, Claude's self-generated audits remained partially fabricable because the audit and the evaluation occurred in the same generative pass. Extracting the mechanical subset to an out-of-process tool makes those findings externally verifiable.
 
 **The Verification Principle:** When a protocol check relies on Claude doing something the human cannot directly verify, that check must eventually be restructured as a visible artifact or as a structural property of the evaluation architecture itself. Integrity-based enforcement is a placeholder, not a final design.
 
 Remaining integrity-based components flagged for future review:
 
-- **Signal articulation requirement.** Relies on Claude honestly judging whether a signal is concrete enough. Candidate for conversion to a regex-checkable format or a mechanical linter.
+- **Judgment-based checks (6, 8, 9, 12, 15, 22, 23, 24, 28, 30).** Not covered by `ocap_lint` and still rely on Claude's honest evaluation. Candidates for future structural conversion via external classifier, human checkpoint, or decomposition into mechanizable sub-checks.
 - **Persona read depth.** Relies on Claude engaging adversarially rather than performing adversarial engagement. Currently mitigated by the minimum signal floor requirement but still integrity-based at its core.
 - **Depth classification reasoning.** Relies on Claude honestly matching content against the rubric. Currently mitigated by the announcement pattern but the rubric match itself is not externally verified.
 
@@ -372,3 +424,4 @@ The following v1.3 components are deprecated and replaced:
 - v1.3 (April 16, 2026): Added Pass Execution Audit requirement and the Verification Principle meta-section. Trigger: Claude presented first-pass output labeled as third-pass converged output in a LinkedIn carousel caption draft.
 - v1.4: SKIPPED. Planned additive revision (new named checks 25-30) was absorbed into the v1.5 structural restructure.
 - v1.5 (April 16, 2026): Structural restructure from sequential passes to three-axis recursive evaluation (F / S / A axes, recursive depth 1/2/3). Added autonomous depth classification with escalation rules. Added Checks 25 through 30 (rhetorical credibility flourishes, press-release opening pattern, unanchored numerical credibility, terminology hygiene, promotional density, multi-surface consistency). Strengthened Check 18 with the self-referential variant. Deprecated the Pass Execution Audit in favor of the Recursive Audit Trace. Trigger: Barry observed that "checking three times and committing once" must be architecturally honest about what Claude can actually execute in a single turn. Claude has one generative pass. The rigor must come from structural differentiation of evaluation concerns within that pass, not from pretending to run sequential independent passes. v1.5 is the first version where the enforcement architecture is structurally aligned with Claude's actual execution model.
+- v1.6 (April 17, 2026): Added `ocap_lint` as the mandated mechanical enforcement layer for the deterministic subset of checks (~60% of the 30 checks). Tool is exposed by the Protocol MCP server. Recursive Audit Trace format updated to separate `[LINT]` (non-fabricable tool output) from `[JUDGMENT]` (Claude's evaluation of remaining checks). Trigger: Barry identified that v1.5's recursive audit was still partially fabricable because the audit and evaluation both occurred within Claude's single generative pass. v1.6 moves the mechanical subset out-of-process to eliminate the fabrication surface for those checks. Calibration baseline: PG's 2013 'Do Things that Don't Scale' (em-dashes stripped) fires 15 findings across ~8000 words; session-dirty drafts fire at 10-13x that density per 100 words, validating the signal-to-noise separation.

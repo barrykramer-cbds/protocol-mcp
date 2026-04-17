@@ -1,0 +1,17 @@
+IBM Technology put out an AI terminology primer this week. Martin Keen covers seven terms for executives: agents, RAG, MCP, MoE, reasoning models, AGI, ASI. The walkthrough doesn't flinch on MCP, which most vendor content does, and I'd hand the video to a board without prep.
+
+The primer doesn't cover what those seven capabilities do when they run outside the envelopes they were designed for. That's the gap I spend most client engagements inside.
+
+Four attack categories belong next to Keen's list for anyone authorizing AI into production:
+
+Agent authority scoping. An agent running perceive-reason-act-observe inherits whatever credentials the operator handed it. Keen's own "DevOps engineer detecting anomalies and rolling back deployments" example is a functional description of an insider threat operating with no accountability layer.
+
+Retrieval poisoning. I've seen this one in the wild in vector stores where upstream ingestion has no provenance checks. RAG's similarity search delivers the adversarial payload the same way it delivers the legitimate one, because the payload was built to be retrieved.
+
+Tool shadowing in MCP. When a single protocol connects a model to databases, code repos, and mail systems, a cross-tool exfiltration chain lives one successful prompt injection from activation.
+
+Chain-of-thought exposure. Reasoning models generate internal reasoning sequences en route to the output. Those sequences frequently contain information the output layer was deliberately suppressing, and an attacker who gets access to the trace has access to the suppressed content.
+
+My Intent Gap whitepaper covers the broader frame: the delta between what AI systems are authorized to do and what they actually end up doing once they are deployed against real adversarial traffic. Three of my current CISO-AI engagements are in that delta.
+
+Carousel covers the details plus three more attack categories on the watchlist. Video and whitepaper in the first comment.

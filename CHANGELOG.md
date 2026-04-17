@@ -2,6 +2,28 @@
 
 All notable changes to the Protocol MCP Server.
 
+## [2.1.0-cloud / OCAP v1.6] - 2026-04-17
+
+### Added
+- **`ocap_lint` MCP tool** — new deterministic lint tool exposed via the Protocol MCP server (both cloud `server.py` and local `protocol_mcp.py`). Runs ~18 S-axis, 1 F-axis, and 1 A-axis check out-of-process, returning structured findings that Claude includes verbatim in the Recursive Audit Trace. Non-fabricable for the mechanical subset.
+- **`tools/ocap_lint.py`** — standalone Python module (stdlib only). Exposes `lint(text) -> List[Finding]` importable from the MCP server. Also runnable as CLI for manual testing: `python tools/ocap_lint.py <file> [--text]`.
+- **Calibration corpus** under `tools/calibration/` — Paul Graham 'Do Things that Don't Scale' (em-dashes stripped) as clean baseline, two session-dirty LinkedIn caption drafts as dirty baseline. Density separation ~10x between clean and dirty validates the tool's signal-to-noise ratio.
+
+### OCAP v1.6
+- **Mechanical Enforcement section** added to the protocol document. Specifies which of the 30 named checks are tool-enforced vs. judgment-based.
+- **Recursive Audit Trace format updated** — `[LINT]` block for tool-generated findings, `[JUDGMENT]` block for Claude-evaluated findings. Separation is visible to the human reviewer.
+- **Verification Principle** updated with the v1.5 -> v1.6 conversion entry (mechanical subset moved from self-reported to tool-enforced).
+- **Trigger:** v1.5's recursive audit remained partially fabricable because Claude's audit and evaluation both occurred within the same generative pass. v1.6 extracts the mechanical subset to an out-of-process tool to eliminate that fabrication surface.
+
+### Server
+- **Version bump:** cloud `server.py` 2.0.0 -> 2.1.0. Local `protocol_mcp.py` retains 1.1.0 (no protocol retrieval semantics changed, only new tool added).
+- **Dockerfile unchanged** — `COPY . /app` already captures the new `tools/` directory.
+
+### Known limitations (future work)
+- Judgment-based checks (6, 8, 9, 12, 15, 22, 23, 24, 28, 30) still rely on Claude's self-reported evaluation.
+- Tool has not been wrapped with per-file calibration (thresholds are baked in from the PG baseline).
+- Depth classification reasoning (from v1.5) remains integrity-based.
+
 ## [Protocol Content] - 2026-04-16 (later)
 
 ### OCAP v1.5 — Structural Restructure

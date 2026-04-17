@@ -50,6 +50,22 @@ SESSIONS_DIR.mkdir(exist_ok=True)
 mcp = FastMCP(SERVER_NAME)
 
 # ---------------------------------------------------------------------------
+# OCAP Lint Integration
+# ---------------------------------------------------------------------------
+
+TOOLS_DIR = _BASE_DIR / "tools"
+if str(TOOLS_DIR) not in sys.path:
+    sys.path.insert(0, str(TOOLS_DIR))
+
+try:
+    import ocap_lint as _ocap_lint_mod  # noqa: E402
+    OCAP_LINT_AVAILABLE = True
+except ImportError:
+    OCAP_LINT_AVAILABLE = False
+    _ocap_lint_mod = None
+
+
+# ---------------------------------------------------------------------------
 # Frontmatter + Phase/Check Parsing
 # ---------------------------------------------------------------------------
 
@@ -309,6 +325,22 @@ class ListInput(BaseModel):
     """Input for listing protocols."""
     model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
+    response_format: ResponseFormat = Field(
+        default=ResponseFormat.MARKDOWN,
+        description="Output format: 'markdown' (default) or 'json'",
+    )
+
+
+class OcapLintInput(BaseModel):
+    """Input for running OCAP lint against outbound content."""
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
+
+    content: str = Field(
+        ...,
+        description="Outbound content to lint (LinkedIn post, email, caption, slide text, etc.)",
+        min_length=1,
+        max_length=200000,
+    )
     response_format: ResponseFormat = Field(
         default=ResponseFormat.MARKDOWN,
         description="Output format: 'markdown' (default) or 'json'",
@@ -1053,6 +1085,96 @@ async def protocol_list_sessions(params: ListSessionsInput) -> str:
 # ---------------------------------------------------------------------------
 # Entrypoint
 # ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# Tools -- Layer 3: OCAP Mechanical Enforcement
+# ---------------------------------------------------------------------------
+
+@mcp.tool(
+    name="ocap_lint",
+    annotations={
+        "title": "OCAP Mechanical Lint",
+        "readOnlyHint": True,
+        "destructiveHint": False,
+        "idempotentHint": True,
+        "openWorldHint": False,
+    },
+)
+async def ocap_lint(params: OcapLintInput) -> str:
+    """Run OCAP v1.5 mechanical checks against outbound content.
+
+    Executes deterministic pattern checks from the S-axis, F-axis, and A-axis.
+    Returns findings as a structured report. Use this before presenting any
+    outbound content to satisfy the OCAP Recursive Audit Trace requirement
+    for mechanical-check enforcement.
+
+    Args:
+        params (OcapLintInput): content to lint and output format preference.
+
+    Returns:
+        str: A findings report. Empty findings means the mechanizable subset
+             of OCAP checks passed. Non-empty findings enumerate each
+             violation with check number, axis, severity, quote, and context.
+             Judgment-based checks (F-axis facts, A.A intent integrity, some
+             composition patterns) are NOT run by this tool and must be
+             evaluated separately.
+    """
+    if not OCAP_LINT_AVAILABLE:
+        return "ERROR: ocap_lint module not available. Check tools/ocap_lint.py deployment."
+
+    if not params.content.strip():
+        return "ERROR: No content provided."
+
+    try:
+        findings = _ocap_lint_mod.lint(params.content)
+    except Exception as exc:
+        return f"ERROR running lint: {exc}"
+
+    if params.response_format == ResponseFormat.JSON:
+        return json.dumps({
+            "total_findings": len(findings),
+            "findings": [f.to_dict() for f in findings],
+        }, indent=2)
+
+    if not findings:
+        return (
+            "# OCAP Lint -- CLEAN\n\n"
+            "Zero mechanical findings. Judgment-based checks still required."
+        )
+
+    lines = [f"# OCAP Lint -- {len(findings)} finding(s)", ""]
+    by_axis = {"F": [], "S": [], "A": []}
+    for f in findings:
+        by_axis[f.axis].append(f)
+
+    axis_names = [
+        ("F", "F-axis (Factual)"),
+        ("S", "S-axis (Signature)"),
+        ("A", "A-axis (Architectural)"),
+    ]
+    for axis_label, axis_name in axis_names:
+        axis_findings = by_axis[axis_label]
+        if not axis_findings:
+            continue
+        lines.append(f"## {axis_name} -- {len(axis_findings)} finding(s)")
+        lines.append("")
+        for f in axis_findings:
+            lines.append(f"- **Check {f.check:02d}** ({f.severity}) -- {f.name}")
+            lines.append(f"  - Quote: `{f.quote}`")
+            if f.line:
+                lines.append(f"  - Line: {f.line}")
+            if f.context and f.context != f.quote:
+                lines.append(f"  - Context: {f.context}")
+        lines.append("")
+
+    lines.append("---")
+    lines.append(
+        "Judgment-based checks (F-axis factual verification, A.A intent "
+        "integrity, composition-level patterns) are NOT covered by this "
+        "tool and must be evaluated separately."
+    )
+    return "\n".join(lines)
+
 
 if __name__ == "__main__":
     mcp.run()

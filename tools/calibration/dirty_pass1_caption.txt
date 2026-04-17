@@ -1,0 +1,11 @@
+IBM Technology published a clean AI terminology primer this week. None of the seven terms covered the security shadow.
+
+Agents, RAG, MCP, MoE, reasoning models, AGI, ASI. Martin Keen walked executives through each one. The material holds up as reference content.
+
+What he didn't cover is the security surface each capability creates.
+
+So I put together the shadow list, the terms that belong next to the primer for anyone authorizing these systems in production. Agent authority scoping, retrieval poisoning, tool shadowing in MCP, chain-of-thought exposure, plus a few more on the watchlist.
+
+Swipe through.
+
+My Intent Gap whitepaper covers why the distance between specification and adversarial behavior is where the production risk lives. Link in the comments.
