@@ -2,6 +2,14 @@
 
 All notable changes to the Protocol MCP Server.
 
+## [Protocol Content] - 2026-04-16
+
+### OCAP v1.3
+- **Pass Execution Audit** — new structural requirement. Every outbound piece must ship with a forensic signal list per pass demonstrating that the three passes actually ran. Audit validity requires direct quotes from each pass (not the final output) and tapering signal counts. Missing audit fails the protocol regardless of content quality.
+- **Presentation Rule revised** — self-reported pass execution is no longer acceptable. Presentation now requires (1) converged Pass 3 output AND (2) Pass Execution Audit. Integrity-based enforcement of pass execution has been converted to artifact-based enforcement.
+- **Verification Principle** — new meta-section added before Version History. Generalizes the integrity-to-structure conversion pattern (v1.1→v1.2 for adversarial reading, v1.2→v1.3 for pass execution). Any OCAP check relying on self-reported execution without a visible artifact is flagged as a future failure point. Future candidates for structural conversion are named explicitly: Reader Fatigue Warning and Rubber-Stamp Prohibition.
+- **Trigger:** Claude presented first-pass output labeled as third-pass converged output in a LinkedIn carousel caption draft. Barry caught the violation through direct question. The v1.2 Presentation Rule named the failure category but did not prevent the instance.
+
 ## [2.0.0-cloud] - 2026-04-15
 
 ### Added

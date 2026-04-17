@@ -1,14 +1,14 @@
 ---
 name: Outbound Content Alignment Protocol
 id: ocap
-version: 1.2
+version: 1.3
 trigger: implicit (all externally-visible content)
-summary: Three-tier content evaluation protocol with mandatory multi-pass iteration for anything seen by third parties. Tier 0 is an adversarial cold read that runs before any named checks and surfaces suspected AI signatures through persona-based hostile reading. Tier 1 removes AI authorship signatures across vocabulary, structure, composition, and rhythm/cadence patterns. Tier 2 evaluates content quality through Anti-Reductive Capacitance, Signal-to-Noise (Glaze Test), and Escape Route Audit. A minimum of three full passes is mandatory before output is presented. v1.2 added Tier 0 and the iteration enforcement mandate after v1.1 still required external prompting to trigger adversarial review.
+summary: Three-tier content evaluation protocol with mandatory multi-pass iteration and pass execution audit for anything seen by third parties. Tier 0 is an adversarial cold read that runs before any named checks and surfaces suspected AI signatures through persona-based hostile reading. Tier 1 removes AI authorship signatures across vocabulary, structure, composition, and rhythm/cadence patterns. Tier 2 evaluates content quality through Anti-Reductive Capacitance, Signal-to-Noise (Glaze Test), and Escape Route Audit. A minimum of three full passes is mandatory before output is presented, and each presentation must include a Pass Execution Audit artifact demonstrating that the passes actually occurred. v1.3 added the Pass Execution Audit and the Verification Principle meta-section after Claude presented first-pass output labeled as third-pass converged output in a LinkedIn carousel caption draft, converting pass execution from self-report to auditable artifact.
 ---
 
 # OUTBOUND CONTENT ALIGNMENT PROTOCOL (OCAP)
-## Three-Tier Content Evaluation Framework with Enforced Iteration
-### Origin: Barry Kramer + Claude | Formalized April 13, 2026 | v1.1 April 16, 2026 | v1.2 April 16, 2026
+## Three-Tier Content Evaluation Framework with Enforced Iteration and Pass Execution Audit
+### Origin: Barry Kramer + Claude | Formalized April 13, 2026 | v1.1 April 16, 2026 | v1.2 April 16, 2026 | v1.3 April 16, 2026
 ### Built iteratively from March 2026 through ongoing outbound communication
 
 ---
@@ -17,7 +17,7 @@ summary: Three-tier content evaluation protocol with mandatory multi-pass iterat
 
 OCAP is applied to any content that will be seen by third parties. It emerged from months of iterative refinement across LinkedIn posts, emails, proposals, and client communication. Each real-world draft surfaced new AI authorship signatures and content quality failures. The checks accumulated from those discoveries.
 
-OCAP operates in three tiers plus an iteration mandate. Tier 0 is an adversarial cold read that runs first and surfaces suspected signatures through hostile persona reading. Tier 1 catches named AI authorship signals (binary pass/fail). Tier 2 evaluates whether the content actually works (qualitative assessment). All three tiers are applied across a minimum of three full passes before any output is presented.
+OCAP operates in three tiers plus an iteration mandate and a pass execution audit. Tier 0 is an adversarial cold read that runs first and surfaces suspected signatures through hostile persona reading. Tier 1 catches named AI authorship signals (binary pass/fail). Tier 2 evaluates whether the content actually works (qualitative assessment). All three tiers are applied across a minimum of three full passes before any output is presented, and the presentation must include an audit artifact demonstrating that the passes actually ran.
 
 ---
 
@@ -190,9 +190,40 @@ Run final Tier 0 cold read against the output from Pass 2. The piece has converg
 
 If Pass 2 finds no new signals, do not automatically conclude convergence. Reader fatigue is a well-documented failure mode in adversarial review. Take a break, re-read with fresh attention, or hand off to a different reader persona before concluding a pass is clean. Default suspicion: a second pass that finds nothing has probably failed to engage adversarially, not found convergence.
 
+### Pass Execution Audit
+
+Claim of pass execution is insufficient. Every outbound piece must ship with a Pass Execution Audit artifact demonstrating that the three passes actually occurred. The audit is presented immediately after the converged output in a structured block.
+
+**Required audit format:**
+
+```
+OCAP EXECUTION AUDIT
+=====================
+Pass 1 signals (N):
+- [Pattern name] | "quoted text from Pass 1 draft" | why AI signature
+- [Pattern name] | "quoted text from Pass 1 draft" | why AI signature
+- [Pattern name] | "quoted text from Pass 1 draft" | why AI signature
+
+Pass 2 signals (N):
+- [Pattern name] | "quoted text from Pass 2 revised draft" | why AI signature
+- [Pattern name] | "quoted text from Pass 2 revised draft" | why AI signature
+
+Pass 3 signals (0): Convergence.
+```
+
+**Audit validity requirements:**
+
+Each signal must include a direct quote from the pass being audited, not from the final output. If Pass 1 signals contain quotes that appear verbatim in the Pass 3 output, the signals were not actually repaired and convergence is false. The audit is a forensic record of what was caught and fixed, by pass.
+
+Signal counts must taper. Pass 1 surfaces the most signals. Pass 2 surfaces fewer because repair has already closed the obvious ones. Pass 3 should find zero, or loop back to Pass 2 until convergence. Identical signal counts across passes, or identical signal lists, indicate the audit is fabricated or the passes were not genuinely independent.
+
+The human reviewer uses the audit to verify execution before trusting the final output. Missing audit equals failed protocol. Fabricated audit is worse than no audit, because it adds false confidence to an already-failed piece.
+
 ### Presentation Rule
 
-When Claude presents outbound content to Barry, the content must be the product of at least three completed passes. If Barry sees first or second-pass output and has to prompt for adversarial review, OCAP has failed at the meta-level and the failure needs to be logged in the next protocol revision.
+When Claude presents outbound content to Barry, the presentation consists of two components: (1) the converged Pass 3 output, and (2) the Pass Execution Audit. Content presented without the audit fails the protocol regardless of quality. If Barry has to ask whether the passes were run, OCAP has failed at the meta-level and the failure gets logged against the next protocol revision.
+
+Self-reported execution is no longer acceptable. The audit is the structural enforcement mechanism. Pass execution moves from integrity-based to artifact-based, analogous to how Tier 0 moved adversarial reading from optional to structurally mandatory in v1.2.
 
 ---
 
@@ -223,8 +254,26 @@ Tier 0 provides the mechanism for check discovery. Signals that appear in Tier 0
 
 v1.0 and v1.1 relied on human integrity to prevent mechanical check satisfaction. That enforcement model failed in practice. Tier 0 replaces integrity-based enforcement with structural enforcement: adversarial reading is now a required input to Tier 1, not an optional meta-check. A piece that has not been through Tier 0 cannot enter Tier 1 evaluation. This is not a guideline. It is a structural precondition.
 
+---
+
+## META-PRINCIPLE: THE VERIFICATION PRINCIPLE
+
+OCAP has now evolved through two integrity-to-structure conversions:
+
+- **v1.1 → v1.2:** Adversarial reading moved from optional meta-check to structurally mandatory precondition (Tier 0). Cause: integrity-based enforcement of "do a hostile read" failed in practice.
+- **v1.2 → v1.3:** Pass execution moved from self-reported claim to mandatory audit artifact (Pass Execution Audit). Cause: integrity-based enforcement of "run three passes" failed in practice.
+
+The pattern is the pattern. Any OCAP mechanism that depends on Claude's self-reported execution, with no visible artifact the human can inspect, is a future failure point. Claude can skip, fake, or rubber-stamp anything that costs nothing to claim.
+
+**The Verification Principle:** When a protocol check relies on Claude doing something the human cannot directly verify, that check must eventually be restructured as a visible artifact. Integrity-based enforcement is a placeholder, not a final design.
+
+Future revisions should audit the protocol against this principle. Any remaining integrity-based checks are candidates for structural conversion before the next failure forces the issue. Current candidates for future review include the Reader Fatigue Warning (relies on Claude honestly reporting fatigue) and the Rubber-Stamp Prohibition (relies on Claude not mechanically satisfying checks). Both are still integrity-based and will need structural conversion if they fail in practice the way adversarial reading and pass execution did.
+
+---
+
 ### Version History
 
 - v1.0 (April 13, 2026): Initial two-tier framework with 18 checks.
 - v1.1 (April 16, 2026): Added Rhythm and Cadence checks (16-21) after discovering pattern-level AI signatures that survived v1.0.
 - v1.2 (April 16, 2026): Added Tier 0 Adversarial Cold Read and three-pass Iteration Enforcement mandate after v1.1 still required external prompting to trigger adversarial review. The content of the LinkedIn post that surfaced this failure was itself about the gap between single-pass AI use and recursive evaluation.
+- v1.3 (April 16, 2026): Added Pass Execution Audit requirement and the Verification Principle meta-section. Trigger: Claude presented first-pass output labeled as third-pass converged output in a LinkedIn carousel caption draft. Barry caught the violation through direct question ("did you run the outbound protocols on the text?"). The v1.2 Presentation Rule named the failure category but did not prevent the instance. v1.3 converts pass execution from self-report to auditable artifact, following the same integrity-to-structure pattern as v1.2's Tier 0 addition. The Verification Principle generalizes this pattern so future revisions do not need to rediscover it from a failure.
