@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(format="[%(levelname)s]: %(message)s", level=logging.INFO)
 
 SERVER_NAME = "protocol_mcp"
-SERVER_VERSION = "2.1.1-cloud"
+SERVER_VERSION = "2.1.2-cloud"
 
 _BASE_DIR = Path(__file__).resolve().parent
 PROTOCOLS_DIR = _BASE_DIR / "protocols"
@@ -41,7 +41,7 @@ except ImportError as e:
     OCAP_LINT_AVAILABLE = False
     logger.warning(f"ocap_lint not available: {e}")
 
-mcp = FastMCP(SERVER_NAME, stateless_http=True, json_response=True)
+mcp = FastMCP(SERVER_NAME)
 
 # --- Parsing ---
 
