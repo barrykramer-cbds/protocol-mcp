@@ -2,6 +2,18 @@
 
 All notable changes to the Protocol MCP Server.
 
+## [Protocol Content] - 2026-04-16 (later)
+
+### OCAP v1.5 — Structural Restructure
+- **Three-axis recursive architecture** — sequential Pass 1/2/3 model replaced with three orthogonal evaluation axes: Factual (F), Signature (S), Architectural (A). Each axis recurses at depth 1, 2, or 3 for 3, 9, or 27 evaluation nodes respectively.
+- **Autonomous depth classification** — Claude auto-classifies each piece based on stakes rubric, announces classification and reasoning, honors override keywords. Signal density and ambiguity trigger mid-execution escalation.
+- **Recursive Audit Trace** — replaces v1.3 Pass Execution Audit. Fabrication resistance comes from structural consistency requirement across all nodes at target depth.
+- **Termination rule** — convergence requires all leaf nodes at target depth to clear. Partial convergence is not convergence.
+- **New named checks** — 25 (Rhetorical credibility flourishes), 26 (Press-release opening pattern), 27 (Unanchored numerical credibility), 28 (Terminology hygiene), 29 (Promotional density), 30 (Multi-surface consistency). Check 18 strengthened with self-referential variant.
+- **Deprecations** — Tier 0/1/2 tier structure, Pass 1/2/3 iteration language, Pass Execution Audit format, Reader Fatigue Warning, standalone Rubber-Stamp Prohibition. Named checks 1-24 retained with same numbering, remapped to axes.
+- **Trigger:** Barry observed that "check three times and commit once" must be architecturally honest about what Claude can actually execute in a single turn. Claude has one generative pass. The rigor must come from structural differentiation within that pass, not from pretending to run sequential independent passes. v1.5 is the first version where the enforcement architecture matches Claude's execution model.
+- **Skipped:** v1.4 (planned additive revision with new checks 25-30) absorbed into v1.5 structural work.
+
 ## [Protocol Content] - 2026-04-16
 
 ### OCAP v1.3
