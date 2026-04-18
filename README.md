@@ -4,7 +4,7 @@ A FastMCP server that makes cognitive protocols persistently available across al
 
 ## What It Does
 
-Protocols are cognitive frameworks (LBP, DAP, OCAP, ORA, PI, Sidebar, Commit, Strength) that dramatically alter Claude's reasoning quality when loaded into context. Without this server, every new conversation starts from zero.
+Protocols are cognitive frameworks (LBP, DAP, OCAP, ORA, PI, GTV, PAP, Sidebar, Commit, Strength) that dramatically alter Claude's reasoning quality when loaded into context. Without this server, every new conversation starts from zero.
 
 This MCP server makes all protocols **always available, everywhere**. Claude can discover, describe, load, and execute any protocol on demand. Protocol execution persists across sessions. New protocols are added by dropping a `.md` file in the `protocols/` directory.
 
@@ -135,7 +135,9 @@ Both `### Phase N:` headings and `**Check N:**` bold formats are supported by th
 | `lbp` | Lateral Bore Protocol | `-lbp` | 7 phases | Systematic lateral thinking. Trace causal chains backward, repurpose tools cross-domain, stack signals for conviction, generate zero-competition channels. |
 | `ora` | Objective Recursive Analysis | `-ora` | 9 phases | Recursive depth-drilling. Each level examines previous level's assumptions. Terminates at decision fork or foundational truth. |
 | `pi` | Probability Index | `-pi` | 4 phases | Rapid Bayesian scoring for competing interpretations. Score against evidence fit, prior frequency, structural plausibility. |
-| `ocap` | Outbound Content Alignment Protocol | implicit | 18 checks | Two-tier: Tier 1 removes AI authorship signatures (vocabulary, structure, composition). Tier 2 evaluates content quality (anti-reductive capacitance, glaze test, escape route audit). |
+| `gtv` | Ground Truth Validation | `-gtv` | 7 phases | Evidence-tiered validation gate for behavioral claims about external systems. Tier A (live probes, <90d practitioner data) through Tier D (vendor marketing, rejected). GREEN/AMBER/RED commit gate. Catches confident assertion from stale premises. |
+| `ocap` | Outbound Content Alignment Protocol | implicit | 30 checks | Three-axis recursive content evaluation for anything seen by third parties. Factual (F), Signature (S), Architectural (A) axes at recursive depth 1/2/3. Auto-classified by stakes. Recursive Audit Trace output. `ocap_lint` provides mechanical enforcement for ~60% of checks. |
+| `pap` | Prompt Algorithm Protocol | `-pap` | 8 phases | Formal algorithm for prompt construction. Engineers structured input for maximum output fidelity. Upstream complement to OCAP. Integrates with SIP for multi-window context, MPC for routing, invokes LBP as subroutine when conventional framing collapses. |
 | `dap` | Devil's Advocate Protocol | `-dap` | 6 phases | Adversarial audit. Score factors +5 to -5, produce scorecard, deliver honest interpretation with no motivational close. |
 | `sidebar` | Sidebar Protocol | `-sidebar` | 4 phases | Context-isolated tangent. Multi-turn supported. Clean exit back to main thread. |
 | `commit` | Commit Protocol | implicit | 4 phases | Storage write guard. Decomposes into OBSERVED/INFERRED/PACKAGED layers. Commits only after human confirms. |
@@ -148,7 +150,7 @@ protocol_mcp.py        # Local server v1.1.0 (stdio, mcp[cli] SDK, ~580 lines)
 server.py              # Cloud server v2.0.0 (streamable HTTP, standalone fastmcp)
 Dockerfile             # Container image for cloud deployment
 render.yaml            # Render.com auto-deploy configuration
-protocols/             # Drop-in protocol library (8 protocols, shared by both servers)
+protocols/             # Drop-in protocol library (10 protocols, shared by both servers)
 sessions/              # Cross-session state persistence (local server only)
 ```
 
@@ -162,6 +164,6 @@ This server was built after an Objective Recursive Analysis (ORA) determined tha
 
 ## Author
 
-Barry Kramer + Claude | April 14-15, 2026
+Barry Kramer + Claude | April 14-17, 2026
 
 License: MIT
