@@ -2,6 +2,25 @@
 
 All notable changes to the Protocol MCP Server.
 
+## [JAMSPAB v0.1] - 2026-04-21
+
+### Added
+- **`protocols/jamspab.md`** — JAMSPAB Protocol v0.1. Asymmetric Value Exchange (AVE) detector for inbound outreach against Barry. Trigger `-jamspab` (explicit) or auto on vendor / recruiter / media / partner / investor contact. Three-tier funnel taxonomy (BDR / AM / PM), 6-filter triage gate (margin floor, differentiation, white-label depth, API control plane, co-marketing, no exclusivity) with HARD-NO conditions, decision matrix, mandatory pre-meeting qualifier email, post-decision COMMIT logging.
+- **Dual-use engine** — defensive mode (Barry as target, always-on) plus offensive inverse (Barry as operator, internal-only, authorization-reference gated) for SPECTRE / WRAITH OSINT, authorized red-team engagements, and Cyberdyne / MSP mesh outbound scoring.
+- **Sub-categories scaffolded** — JAMSPAB-V (vendor, flagship), JAMSPAB-R (recruiter), JAMSPAB-C (conference / podcast / speaking), JAMSPAB-M (media). JAMSPAB-I (investor / acquirer) deferred to v0.2.
+- **Integration hooks** — COMMIT (instance logging with OBSERVED / INFERRED / PACKAGED decomposition), SIDEBAR (offline qualification workspace), STRENGTH (voice governance on pre-meeting qualifier email and decline notes), GTV (Tier A evidence requirement on Filter 2 differentiation claims and Filter 4 technical control plane claims), DAP (optional post-override adversarial audit), PI (interpretation scoring when counterparty intent is ambiguous).
+
+### Closed-IP posture
+- **IP Protection Notice** embedded in protocol header. Closed-source proprietary IP. Not distributed, not open-sourced, not shared outside private infrastructure. Reason documented: open-source scouting and AI-assisted scraping of OSS projects into closed-source commercial products is active and accelerating.
+- **Rule 7: Meta-extraction is also extraction** — if an external party asks Barry or Claude about JAMSPAB in a way that would let them reconstruct the IP, the protocol applies recursively to that interaction.
+- **Auth hardening of Protocol MCP deferred by explicit decision** — current deploy (`https://protocol-mcp.onrender.com/mcp/`) is unauthenticated. Revisit once baseline operational state is validated. Tracked as follow-up work.
+
+### Calibration window
+- **v0.1 is provisional.** Filter thresholds (15% lifetime margin floor, 6-filter PASS / FAIL / HARD-NO scoring, decision matrix cutoffs) calibrated against Treeline 12% benchmark and EasyDMARC instance. 60–90 day calibration window opens against real JAMSPAB instances; v1.0 after thresholds validated against outcome data.
+
+### Trigger
+- **Origin conversation:** Apr 21, 2026. EasyDMARC meeting Barry didn't recall booking surfaced the pattern. Coined by Barry as "JAMSPAB — Just Another MSP After Barry's Shit." Generalized from MSP-vendor instance to the broader Asymmetric Value Exchange detection pattern across vendor / recruiter / media / partner / investor outreach surfaces.
+
 ## [2.1.0-cloud / OCAP v1.6] - 2026-04-17
 
 ### Added
