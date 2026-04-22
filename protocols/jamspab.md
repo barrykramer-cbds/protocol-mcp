@@ -1,10 +1,10 @@
 ---
 name: JAMSPAB Protocol
 id: jamspab
-version: 0.1
+version: 0.2
 trigger: -jamspab (explicit) OR auto on inbound vendor/recruiter/media/partner/investor outreach
 visibility: INTERNAL — CLOSED SOURCE — DUAL-USE
-summary: Asymmetric Value Exchange (AVE) detector. Scores inbound outreach for directional value flow against Barry's pile (revenue, equity, network, reputation, time, optionality). Three-tier funnel taxonomy (BDR/AM/PM) plus 6-filter triage gate (margin, differentiation, white-label depth, API control plane, co-marketing, no exclusivity). Recommender-with-explanation, no auto-decline. Dual-use engine: defensive mode (Barry as target, public framing) and offensive inverse (Barry as operator, OSINT/red-team/MSP outbound — internal only). Closed IP by design; not for distribution.
+summary: Asymmetric Value Exchange (AVE) detector. Scores inbound outreach for directional value flow against Barry's pile (revenue, equity, network, reputation, time, optionality). Three-tier funnel taxonomy (BDR/AM/PM) plus 6-filter triage gate (margin, differentiation, white-label depth, API control plane, co-marketing, no exclusivity). Pre-meeting qualifier email routed to tiered template variants based on counterparty role. Recommender-with-explanation, no auto-decline. Dual-use engine: defensive mode (Barry as target, public framing) and offensive inverse (Barry as operator, OSINT/red-team/MSP outbound — internal only). Closed IP by design; not for distribution.
 ---
 
 # JAMSPAB PROTOCOL
@@ -126,24 +126,71 @@ Additional modifier: If counterparty passed Phase 2 tier filter at Tier 3+ and i
 
 ### Phase 5: PRE-MEETING QUALIFIER EMAIL
 
-Mandatory for any taken meeting above "decline" tier. Template structure:
+Mandatory for any taken meeting above "decline" tier. Template selection is driven by the counterparty tier determined in Phase 2.
 
-> Subject: [Meeting topic] — quick prep ask
+**Routing logic:**
+
+- **Tier 2** (Account / Acquisition / Channel Manager): use the **Warm variant** below. AMs lack authority or engineering visibility to answer deep architectural questions without looping in an SE, which introduces 3-5 days of delay and risks meeting push. Asking them those questions is counterproductive to the evaluation and reads as hostile. Reserve technical-plane questions for the live meeting where the AM can take notes or loop in an SE synchronously.
+
+- **Tier 3+** (Partner Manager / VP Channel / C-suite / Founder): use the **Full variant** below. These contacts can route engineering questions internally without delay and can answer commercial questions with binding authority. The fuller ask is proportional to their scope.
+
+- **Tier 1** (BDR / SDR) with no Tier 2+ escalation path: Phase 2 gate has already auto-declined. No qualifier email is sent.
+
+---
+
+**Warm variant (Tier 2 AM contacts):**
+
+> Subject: Prep for our [date] meeting
 >
-> [Name], before we meet on [date] I want to make sure we use the time well on both sides. Can you send:
+> Hi [name],
 >
-> 1. Partner economics summary — commission %, lifetime vs. one-time, payout cadence, written contract example
-> 2. Multi-tenant architecture overview — isolation model, per-tenant configuration, white-label depth
-> 3. API / webhook documentation link
-> 4. One slide on what you do differently from [named competitor 1] and [named competitor 2]
+> Looking forward to our meeting [date]. A bit of context ahead of time so we can use the [duration] well.
 >
-> If you can get those across by [date - 24hrs] I'll come to the meeting with pointed questions and we'll skip the demo. If not, let's reschedule once they're available.
+> I'm a [Barry's current title / framing] running [relevant distribution context]. I bring partnerships to a handful of established [counterparty's target segment] rather than selling one-to-one, so my evaluation focuses more on partner economics and fit than product demos.
+>
+> If you can send a few things ahead of the meeting, I'll come in with specific questions:
+>
+> 1. An overview of your [partner / channel] program, including commission structure, recurring vs one-time, and a sample agreement if you have one
+> 2. A quick rundown on how [counterparty] positions against [named competitor 1], [named competitor 2], and [named competitor 3]
+> 3. Any [counterparty segment] case studies or reference customers worth pointing to
+>
+> Happy to cover anything you can't pull together by then live on the call.
+>
+> Thanks,
+> [Sign-off under Strength Protocol]
+
+**Filter coverage (Warm variant):** Filter 1 (margin), Filter 2 (differentiation), partial Filter 6 (exclusivity via sample agreement). Filters 3, 4, 5 resolve in the live meeting.
+
+---
+
+**Full variant (Tier 3+ Partner Manager / VP Channel / C-suite / Founder):**
+
+> Subject: [Meeting topic] — pre-meeting artifact request
+>
+> Hi [name],
+>
+> Before we meet on [date] I want to use the time well on both sides and skip the standard demo flow.
+>
+> I'm evaluating [counterparty] as a potential SKU for [Barry's distribution context]. Partner economics and architectural fit get decided before pitch calls in this model, not during them.
+>
+> Can you send the following ahead of [date - 24hrs] EOD:
+>
+> 1. Partner economics: commission %, lifetime vs one-time recurring, payout cadence, sample partner agreement covering exclusivity and termination language
+> 2. Multi-tenant architecture: isolation model, per-tenant configuration depth, and white-label depth including whether "Powered by [counterparty]" footer is strippable
+> 3. Technical control plane: public API documentation, webhook reference, SSO/SAML support, audit log export format
+> 4. Competitive differentiation: one slide answering "what does [counterparty] do that [named competitor 1], [named competitor 2], and [named competitor 3] don't?" Answer in engineering terms.
+>
+> If those land by [date - 24hrs] EOD, I'll come in with pointed questions and we go straight to fit assessment. If they aren't available by then, we push the meeting until they are.
 >
 > [Sign-off under Strength Protocol]
 
-Purpose is threefold: pre-qualify the meeting, establish qualification direction (Barry evaluates them, not inverse), and generate written artifacts for comparison against other JAMSPAB instances.
+**Filter coverage (Full variant):** Filters 1, 2, 3, 4, 6 resolved pre-meeting. Filter 5 (co-marketing) resolves in the live meeting.
 
-Voice governed by STRENGTH PROTOCOL — no hedging, no apology for the ask, no softening. The ask is proportional to the meeting Barry is considering giving them.
+---
+
+Purpose is threefold: pre-qualify the meeting, establish qualification direction (Barry evaluates them, not the inverse), and generate written artifacts for comparison across JAMSPAB instances.
+
+Voice governed by STRENGTH PROTOCOL: no hedging, no apology for the ask, no softening. The ask is proportional to the meeting Barry is considering giving them and calibrated to what the counterparty's tier can produce without friction.
 
 ### Phase 6: POST-MEETING OR POST-DECISION COMMIT
 
@@ -197,3 +244,4 @@ Additional sub-categories added as Barry encounters novel extraction patterns.
 ## VERSION HISTORY
 
 - **v0.1** (2026-04-21) — Initial authoring. Defensive + offensive engine, 6-filter triage, sub-categories V/R/C/M, integration hooks to COMMIT/SIDEBAR/STRENGTH/GTV/DAP/PI. Calibration window opens. IP protection notice establishes closed-source posture.
+- **v0.2** (2026-04-21) — Phase 5 template split into tiered variants based on Phase 2 counterparty tier. Tier 2 (Account / Acquisition Manager) contacts receive Warm variant (partner program overview, competitive positioning, case studies; three items; Filters 1/2/partial-6 covered pre-meeting). Tier 3+ (Partner Manager / VP Channel / C-suite / Founder) contacts receive Full variant (retained v0.1 technical-plane depth; Filters 1/2/3/4/6 covered pre-meeting). Routing rationale: AM contacts cannot answer architecture/API/DKIM questions without 3-5 day SE loop-in, which introduces delay and reads as hostile. Driven by calibration instance #001 (EasyDMARC / Mariam Tsatryan, Tier 2 AM; v0.1 template flagged by Barry as aggressive and over-technical on first pass). Targeted fix, not a general retune; threshold tuning deferred to v1.0 after ≥5 calibration instances.

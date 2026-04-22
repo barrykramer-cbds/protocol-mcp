@@ -2,6 +2,27 @@
 
 All notable changes to the Protocol MCP Server.
 
+## [JAMSPAB v0.2] - 2026-04-21
+
+### Changed
+- **Phase 5 template architecture** — split into two tiered variants based on Phase 2 counterparty tier detection. Routing logic added: Tier 2 (Account / Acquisition Manager) contacts receive the new Warm variant; Tier 3+ (Partner Manager / VP Channel / C-suite / Founder) contacts receive the Full variant (retained from v0.1). Tier 1 contacts with no escalation path already auto-decline at Phase 2 gate and receive no qualifier.
+- **Filter coverage tradeoff documented** — Warm variant covers Filters 1 (margin), 2 (differentiation), and partial 6 (exclusivity via sample agreement) pre-meeting, with Filters 3, 4, 5 resolved live. Full variant covers Filters 1, 2, 3, 4, 6 pre-meeting, with Filter 5 (co-marketing) resolved live.
+- **Protocol summary line updated** to reference tiered template routing.
+- **Version History** entry added for v0.2 with rationale citing calibration instance #001.
+
+### Rationale
+- v0.1 Phase 5 template was calibrated for technical-buyer-to-technical-seller exchanges. When executed against Tier 2 AM contacts, it asked questions outside their scope of authority (DKIM key management, isolation architecture, audit log export, SSO/SAML). AMs routing these to engineering introduces 3-5 day delay and risks meeting push.
+- First live deployment (instance #001: EasyDMARC / Mariam Tsatryan, Apr 21) was flagged by Barry as aggressive and over-technical on first draft review.
+- Diagnosis: the Phase 5 ask must be calibrated to what the counterparty tier can answer directly. Architectural questions belong in the live meeting with whichever engineering presence the AM brings or takes notes for. Commercial questions, competitive positioning, and reference customer requests belong pre-meeting because the AM owns those answers.
+
+### Calibration status
+- **Datapoint count: 1.** v0.2 is a targeted fix for an identified failure mode, not a general retune. The 60-90 day calibration window remains open. General threshold tuning (filter weights, decision matrix cutoffs) deferred to v1.0 after ≥5 calibration instances.
+- Warm variant: 1 live deployment pending (instance #001 qualifier sent to Mariam Tsatryan).
+- Full variant: zero live deployments to date. Should be watched in its first Tier 3+ instance.
+
+### Trigger
+- Barry's direct feedback on instance #001 qualifier draft: "reads a bit aggressive and over technical." Revised in-session to Warm variant; Warm variant committed to protocol in v0.2.
+
 ## [JAMSPAB v0.1] - 2026-04-21
 
 ### Added
